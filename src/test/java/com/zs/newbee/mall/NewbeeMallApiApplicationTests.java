@@ -1,6 +1,9 @@
 package com.zs.newbee.mall;
 
+import com.zs.newbee.mall.services.NewBeeMallUserService;
+import com.zs.newbee.mall.services.impl.NewBeeMallUserServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -13,6 +16,9 @@ class NewbeeMallApiApplicationTests {
     @Resource
     private DataSource defaultDataSource;
 
+    @Autowired
+    private NewBeeMallUserService service;
+
     @Test
     public void datasourceTest() throws SQLException {
         Connection connection = defaultDataSource.getConnection();
@@ -23,6 +29,12 @@ class NewbeeMallApiApplicationTests {
     }
     @Test
     void contextLoads() {
+    }
+
+    @Test
+    public void testSelect(){
+        String result = service.register("13700002703","1234567");
+        System.out.println(result);
     }
 
 }
