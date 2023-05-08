@@ -1,5 +1,7 @@
 package com.zs.newbee.mall.services;
 
+import com.zs.newbee.mall.api.mall.param.MallUserUpdateParam;
+
 public interface NewBeeMallUserService {
 
     /**
@@ -17,4 +19,11 @@ public interface NewBeeMallUserService {
      * @return
      */
     String login(String loginName, String passwordMD5);
+
+    /**
+     * 退出登录
+     * @param userId
+     * @return
+     */
+    Boolean logout(Long userId);
 }
