@@ -31,7 +31,7 @@ public class NewBeeMallUserServiceImpl implements NewBeeMallUserService {
         String passwordMD5 = MD5Util.MD5Encode(password,"UTF-8");
         registerUser.setPasswordMd5(passwordMD5);
         if(mallUserMapper.insertSelective(registerUser) > 0){
-            return ServiceResultEnum.SUCCEESS.getResult();
+            return ServiceResultEnum.SUCCESS.getResult();
         }
         return ServiceResultEnum.ERROR.getResult();
     }

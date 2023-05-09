@@ -3,7 +3,7 @@ package com.zs.newbee.mall.common;
 public enum ServiceResultEnum {
     //公共部分
     ERROR("error"),
-    SUCCEESS("success"),
+    SUCCESS("success"),
 
     //登录注册
     SAME_LOGIN_NAME_EXIST("用户名已存在！"),
