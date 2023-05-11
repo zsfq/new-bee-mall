@@ -1,6 +1,8 @@
 package com.zs.newbee.mall.api.mall;
 
+import com.zs.newbee.mall.api.mall.param.MallUserLoginParam;
 import com.zs.newbee.mall.api.mall.param.MallUserRegisterParam;
+import com.zs.newbee.mall.common.Constants;
 import com.zs.newbee.mall.common.ServiceResultEnum;
 import com.zs.newbee.mall.services.NewBeeMallUserService;
 import com.zs.newbee.mall.utils.NumberUtil;
@@ -10,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,24 @@ public class NewBeeMallPersonalAPI {
     private NewBeeMallUserService newBeeMallUserService;
 
     private static final Logger logger = LoggerFactory.getLogger(NewBeeMallPersonalAPI.class);
+
+    public Result<String> login(@RequestBody @Valid MallUserLoginParam mallUserLoginParam){
+        if(!NumberUtil.isPhoneNumber(mallUserLoginParam.getLoginName())){
+            return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
+        }
+        String loginResult = newBeeMallUserService.login(mallUserLoginParam.getLoginName(), mallUserLoginParam.getPasswordMd5());
+        logger.info("login api,loginName={},loginResult={}", mallUserLoginParam.getLoginName(), loginResult);
+
+        //登录成功
+        if(StringUtils.hasText(loginResult) && loginResult.length() == Constants.TOKEN_LENGTH){
+            Result result = ResultGenerator.genSuccessResult();
+            result.setData(loginResult);
+            return result;
+        }
+
+        //登录失败
+        return ResultGenerator.genFailResult(loginResult);
+    }
 
     @PostMapping("/user/register")
     @ApiOperation(value = "用户注册", notes = "")
